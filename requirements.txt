@@ -1,0 +1,5 @@
+aiofiles
+chardet
+python-dotenv
+openai
+ffmpeg-python
