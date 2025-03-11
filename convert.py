@@ -53,9 +53,25 @@ def is_translatable(line: str) -> bool:
 async def batch_translate(texts: List[str], max_retries: int = 3) -> List[str]:
     """Translate a batch of texts using DeepSeek API."""
     prompt = (
-        "Translate the following Russian subtitles into Kazakh while preserving timing and formatting:\n\n" +
-        "\n".join([f"{i+1}. {text}" for i, text in enumerate(texts)])
-    )
+    "You are a professional translator working with video subtitles. "
+    "Translate the following Russian subtitle lines into Kazakh while maintaining: "
+    "1. Exact timing markers (HH:MM:SS.FFF --> HH:MM:SS.FFF) and formatting\n"
+    "2. Full context and meaning from the original dialogue\n"
+    "3. Natural Kazakh language flow and grammatical structure\n"
+    "4. Cultural nuances and proper localization\n"
+    "5. Technical terms and proper nouns (keep untranslated when appropriate)\n\n"
+    "Consider the broader context of the video content and ensure:\n"
+    "- Pronouns and verb tenses match the scene context\n"
+    "- Cultural references are adapted for Kazakh audience\n"
+    "- Emotional tone matches the original delivery\n"
+    "- Character consistency throughout the dialogue\n\n"
+    "Format requirements:\n"
+    "- Maintain original line breaks and positioning\n"
+    "- Preserve all non-verbal sounds in brackets (e.g., [laughter])\n"
+    "- Keep speaker identifiers if present\n\n"
+    "Lines to translate:\n" + 
+    "\n".join([f"{i+1}. {text}" for i, text in enumerate(texts)])
+)
 
     for attempt in range(max_retries):
         try:
